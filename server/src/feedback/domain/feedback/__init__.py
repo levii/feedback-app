@@ -18,8 +18,12 @@ class FeedbackTitle:
     MAX_LENGTH = 200
 
     def __post_init__(self):
-        assert len(self.value) >= self.MIN_LENGTH, f"FeedbackTitleには長さ{self.MIN_LENGTH}以上の文字列を指定してください"
-        assert len(self.value) <= self.MAX_LENGTH, f"FeedbackTitleには長さ{self.MAX_LENGTH}以下の文字列を指定してください"
+        assert (
+            len(self.value) >= self.MIN_LENGTH
+        ), f"FeedbackTitleには長さ{self.MIN_LENGTH}以上の文字列を指定してください"
+        assert (
+            len(self.value) <= self.MAX_LENGTH
+        ), f"FeedbackTitleには長さ{self.MAX_LENGTH}以下の文字列を指定してください"
 
 
 @dataclasses.dataclass(frozen=True)
