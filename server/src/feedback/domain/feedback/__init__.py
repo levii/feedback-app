@@ -1,7 +1,7 @@
 import dataclasses
 from typing import List
 
-from common.domain.key import UserKey
+from common.user.domain.key import UserKey
 from feedback.domain.key import FeedbackKey
 
 
