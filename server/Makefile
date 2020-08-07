@@ -5,5 +5,16 @@ pip-compile:
 pip-install:
 	pip install -r src/requirements.dev.txt
 
+mypy:
+	mypy src/
+
+black:
+	black src/ tests/
+
+flake8:
+	flake8 src/ tests/
+
+check: mypy black flake8
+
 test:
 	PYTHONPATH=src pytest -vv tests
