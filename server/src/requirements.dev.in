@@ -3,3 +3,4 @@ pip-tools
 black
 flake8
 mypy
+lxml # for mypy html-report
