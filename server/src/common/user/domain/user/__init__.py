@@ -21,7 +21,7 @@ class UserName:
 
 
 @dataclasses.dataclass(frozen=True)
-class UserIcon:
+class UserIconURL:
     value: str
 
     URL_PATTERN = r"https?://"
@@ -40,4 +40,4 @@ class UserIcon:
 class User:
     key: UserKey
     name: UserName
-    icon: UserIcon
+    icon_url: UserIconURL

@@ -1,6 +1,7 @@
 import pytest
 
-from common.user.domain.user import UserName, UserIcon
+from common.user.domain.user import UserName, UserIconURL, User
+from test_helpers.user import build_user
 
 
 class TestUser:
@@ -17,17 +18,19 @@ class TestUser:
             UserName("a" * UserName.MAX_LENGTH + "x")
 
     def test_valid_user_icon(self):
-        icon = UserIcon("http://localhost/user-image.png")
-        assert isinstance(icon, UserIcon)
-        assert isinstance(UserIcon("https://example.com/user-image.png"), UserIcon)
+        icon = UserIconURL("http://localhost/user-image.png")
+        assert isinstance(icon, UserIconURL)
+        assert isinstance(UserIconURL("https://example.com/user-image.png"), UserIconURL)
 
     def test_invalid_starts_with_user_icon(self):
         with pytest.raises(AssertionError):
-            UserIcon("test://example.com")
+            UserIconURL("test://example.com")
 
     def test_invalid_too_long_user_icon(self):
         with pytest.raises(AssertionError):
-            UserIcon("http://example.com/" + "a" * UserIcon.MAX_LENGTH)
+            UserIconURL("http://example.com/" + "a" * UserIconURL.MAX_LENGTH)
 
     def test_valid_user(self):
-        pass
+        user = build_user(name="John One")
+        assert isinstance(user, User)
+        assert user.name == UserName("John One")
