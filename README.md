@@ -4,7 +4,7 @@
 
 ### Python venv 環境作成
 
-venv 環境を作成してください。
+Python3.8 を利用して、venv 環境を作成してください。
 
 ```
 $ python -m venv venv
