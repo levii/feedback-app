@@ -24,12 +24,17 @@ jobs:
     - name: run pytest
       run: |
         cd server
-        PYTHONPATH=src pytest -vv
+        PYTHONPATH=src pytest -vv --junitxml=test-reports/junit.xml --cov=src --cov-report=html
     - uses: actions/upload-artifact@master
       if: always()
       with:
-        name: reports
-        path: ./server/reports
+        name: pytest-reports
+        path: ./server/test-reports
+    - uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: pytest-cov-reports
+        path: ./server/htmlcov
 
   python-mypy:
     runs-on: ubuntu-latest

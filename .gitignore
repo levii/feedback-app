@@ -1,5 +1,6 @@
 # Customize
 server/reports/
+server/test-reports/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
