@@ -7,15 +7,15 @@
 venv 環境を作成してください。
 
 ```
-$ python -m venv server/venv
-$ source server/venv/bin/activate
+$ python -m venv venv
+$ source venv/bin/activate
 ```
 
 必要ならば、 direnv などを使って、ディレクトリに移動した際に自動で activate されるように設定してください。
 
 ```
 $ direnv edit
-# -->  source server/venv/bin/activate と記載
+# -->  source venv/bin/activate と記載
 $ direnv allow .
 ```
 
