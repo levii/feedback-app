@@ -1,8 +1,36 @@
-name: Python (Linter)
+name: Python Server
 
 on: [push]
 
 jobs:
+  python-pytest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('server/src/requirements.dev.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      run: |
+        python -m pip install pip
+        pip install -r server/src/requirements.dev.txt
+    - name: run pytest
+      run: |
+        cd server
+        PYTHONPATH=src pytest -vv
+    - uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: reports
+        path: ./server/reports
+
   python-mypy:
     runs-on: ubuntu-latest
     steps:
