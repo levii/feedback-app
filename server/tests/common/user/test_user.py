@@ -20,7 +20,9 @@ class TestUser:
     def test_valid_user_icon(self):
         icon = UserIconURL("http://localhost/user-image.png")
         assert isinstance(icon, UserIconURL)
-        assert isinstance(UserIconURL("https://example.com/user-image.png"), UserIconURL)
+        assert isinstance(
+            UserIconURL("https://example.com/user-image.png"), UserIconURL
+        )
 
     def test_invalid_starts_with_user_icon(self):
         with pytest.raises(AssertionError):
