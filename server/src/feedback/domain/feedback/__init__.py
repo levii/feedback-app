@@ -2,6 +2,7 @@ import dataclasses
 from typing import List
 
 from common.user.domain.key import UserKey
+from feedback.domain.comment import FeedbackCommentCollection
 from feedback.domain.key import FeedbackKey
 
 
@@ -48,6 +49,12 @@ class Feedback:
     feedback_user: FeedbackUser
     title: FeedbackTitle
     description: FeedbackDescription
+
+
+@dataclasses.dataclass(frozen=True)
+class FeedbackWithComments:
+    feedback: Feedback
+    comments: FeedbackCommentCollection
 
 
 @dataclasses.dataclass(frozen=True)
