@@ -2,6 +2,7 @@ import dataclasses
 from typing import List
 
 from common.user.domain.key import UserKey
+from common.user.domain.user import User
 from feedback.domain.comment import FeedbackCommentCollection
 from feedback.domain.key import FeedbackKey
 
@@ -9,6 +10,10 @@ from feedback.domain.key import FeedbackKey
 @dataclasses.dataclass(frozen=True)
 class FeedbackUser:
     user_key: UserKey
+
+    @classmethod
+    def build_from_user(cls, user: User) -> "FeedbackUser":
+        return cls(user_key=user.key)
 
 
 @dataclasses.dataclass(frozen=True)

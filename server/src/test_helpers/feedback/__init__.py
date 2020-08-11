@@ -22,7 +22,7 @@ def build_feedback(
     if feedback_user is None:
         feedback_user = FeedbackUser(UserKey.build_new())
     if isinstance(feedback_user, User):
-        feedback_user = FeedbackUser(feedback_user.key)
+        feedback_user = FeedbackUser.build_from_user(feedback_user)
 
     return Feedback(
         key=key,
