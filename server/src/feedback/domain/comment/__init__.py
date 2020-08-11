@@ -3,7 +3,7 @@ from typing import List
 
 from common.user.domain.key import UserKey
 from common.user.domain.user import UserName, UserIconURL, User
-from feedback.domain.key import FeedbackCommentKey
+from feedback.domain.key import FeedbackCommentKey, FeedbackKey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -27,6 +27,18 @@ class FeedbackComment:
     key: FeedbackCommentKey
     feedback_comment_user: FeedbackCommentUser
     body: FeedbackCommentBody
+
+    @classmethod
+    def build_new(
+        cls, feedback_key: FeedbackKey, comment_user: User, body: FeedbackCommentBody
+    ) -> "FeedbackComment":
+        return cls(
+            key=FeedbackCommentKey.build_new(feedback_key=feedback_key),
+            feedback_comment_user=FeedbackCommentUser.build_from_user(
+                user=comment_user
+            ),
+            body=body,
+        )
 
 
 @dataclasses.dataclass(frozen=True)
