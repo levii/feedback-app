@@ -1,4 +1,5 @@
 import dataclasses
+import datetime
 from typing import List
 
 from common.user.domain.key import UserKey
@@ -56,6 +57,7 @@ class Feedback:
     feedback_user: FeedbackUser
     title: FeedbackTitle
     description: FeedbackDescription
+    created_at: datetime.datetime
 
 
 @dataclasses.dataclass(frozen=True)
