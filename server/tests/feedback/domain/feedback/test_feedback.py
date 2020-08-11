@@ -1,6 +1,7 @@
 import pytest
 
-from feedback.domain.feedback import FeedbackTitle, FeedbackDescription
+from feedback.domain.feedback import FeedbackTitle, FeedbackDescription, Feedback
+from test_helpers.feedback import build_feedback
 
 
 class TestFeedback:
@@ -27,3 +28,7 @@ class TestFeedback:
     def test_invalid_too_long_description(self):
         with pytest.raises(AssertionError):
             FeedbackDescription("a" * FeedbackDescription.MAX_LENGTH + "x")
+
+    def test_build_feedback(self):
+        feedback = build_feedback()
+        assert isinstance(feedback, Feedback)
