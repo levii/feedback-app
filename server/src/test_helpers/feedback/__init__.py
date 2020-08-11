@@ -1,6 +1,5 @@
 from typing import Optional, Union
 
-from common.user.domain.key import UserKey
 from common.user.domain.user import User
 from feedback.domain.feedback import (
     Feedback,
@@ -9,6 +8,7 @@ from feedback.domain.feedback import (
     FeedbackDescription,
 )
 from feedback.domain.key import FeedbackKey
+from test_helpers.user import build_user
 
 
 def build_feedback(
@@ -20,9 +20,9 @@ def build_feedback(
     if key is None:
         key = FeedbackKey.build_new()
     if feedback_user is None:
-        feedback_user = FeedbackUser(UserKey.build_new())
+        feedback_user = FeedbackUser.build_from_user(user=build_user())
     if isinstance(feedback_user, User):
-        feedback_user = FeedbackUser.build_from_user(feedback_user)
+        feedback_user = FeedbackUser.build_from_user(user=feedback_user)
 
     return Feedback(
         key=key,
