@@ -1,3 +1,8 @@
+# Customize
+server/reports/
+server/test-reports/
+server/src/output
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
