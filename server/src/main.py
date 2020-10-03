@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import common.user.bind  # noqa
 
 app = Flask(__name__)
 
