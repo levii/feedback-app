@@ -12,6 +12,7 @@ coverage==5.2.1           # via pytest-cov
 flake8==3.8.3             # via -r src/requirements.dev.in
 flask==1.1.2              # via -r src/requirements.txt
 iniconfig==1.0.1          # via pytest
+injector==0.18.4          # via -r src/requirements.txt
 itsdangerous==1.1.0       # via -r src/requirements.txt, flask
 jinja2==2.11.2            # via -r src/requirements.txt, flask
 lxml==4.5.2               # via -r src/requirements.dev.in
@@ -34,7 +35,7 @@ regex==2020.7.14          # via black
 six==1.15.0               # via packaging, pip-tools
 toml==0.10.1              # via black, pytest
 typed-ast==1.4.1          # via black, mypy
-typing-extensions==3.7.4.2  # via mypy
+typing-extensions==3.7.4.3  # via -r src/requirements.txt, injector, mypy
 werkzeug==1.0.1           # via -r src/requirements.txt, flask
 
 # The following packages are considered to be unsafe in a requirements file:
