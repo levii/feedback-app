@@ -8,7 +8,7 @@ from common.user.domain.user_repository import UserRepository
 
 
 class InMemoryUserRepository(UserRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         sample_users = [
             User(
                 key=UserKey("customer1"),
@@ -22,10 +22,7 @@ class InMemoryUserRepository(UserRepository):
             ),
         ]
 
-        self._users: Dict[UserKey, User] = {
-            user.key: user
-            for user in sample_users
-        }
+        self._users: Dict[UserKey, User] = {user.key: user for user in sample_users}
 
     def fetch_list(self) -> List[User]:
         return list(self._users.values())
