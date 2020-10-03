@@ -1,12 +1,20 @@
-from flask import Flask, render_template
+import flask
 import common.user.bind  # noqa
+from common.user.presentation import register_user_blueprints
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    return flask.render_template('index.html')
+
+
+blueprint = flask.Blueprint(name="blueprint", import_name=__name__)
+
+register_user_blueprints(blueprint)
+
+app.register_blueprint(blueprint)
 
 
 if __name__ == '__main__':
