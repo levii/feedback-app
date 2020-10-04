@@ -43,3 +43,11 @@ class FeedbackComment:
 @dataclasses.dataclass(frozen=True)
 class FeedbackCommentCollection:
     _collection: List[FeedbackComment]
+
+    @classmethod
+    def build(cls, comments: List[FeedbackComment]) -> "FeedbackCommentCollection":
+        return cls(comments)
+
+    def append(self, comment: FeedbackComment) -> "FeedbackCommentCollection":
+        self._collection.append(comment)
+        return self
