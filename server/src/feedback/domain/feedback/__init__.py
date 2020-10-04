@@ -1,7 +1,7 @@
 import dataclasses
 import datetime
 import enum
-from typing import List
+from typing import List, Optional
 
 from common.user.domain.key import UserKey
 from common.user.domain.user import User, UserName
@@ -101,6 +101,22 @@ class Feedback:
 class FeedbackWithComments:
     feedback: Feedback
     comments: FeedbackCommentCollection
+
+    @classmethod
+    def build(
+        cls, feedback: Feedback, comments: Optional[FeedbackCommentCollection] = None
+    ) -> "FeedbackWithComments":
+        return cls(
+            feedback=feedback, comments=comments or FeedbackCommentCollection([])
+        )
+
+    @property
+    def key(self) -> FeedbackKey:
+        return self.feedback.key
+
+    @property
+    def status(self) -> FeedbackStatus:
+        return self.feedback.status
 
 
 @dataclasses.dataclass(frozen=True)
