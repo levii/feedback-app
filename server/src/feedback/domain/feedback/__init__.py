@@ -7,6 +7,7 @@ from common.user.domain.key import UserKey
 from common.user.domain.user import User, UserName
 from feedback.domain.comment import FeedbackCommentCollection
 from feedback.domain.key import FeedbackKey
+from framework import utcnow_with_tz
 
 
 class FeedbackStatus(enum.Enum):
@@ -71,6 +72,29 @@ class Feedback:
     description: FeedbackDescription
     status: FeedbackStatus
     created_at: datetime.datetime
+
+    @classmethod
+    def build_new(
+        cls, user: User, title: FeedbackTitle, description: FeedbackDescription
+    ) -> "Feedback":
+        return cls(
+            key=FeedbackKey.build_new(),
+            feedback_user=FeedbackUser.build_from_user(user),
+            title=title,
+            description=description,
+            status=FeedbackStatus.New,
+            created_at=utcnow_with_tz(),
+        )
+
+    def with_status(self, status: FeedbackStatus) -> "Feedback":
+        return Feedback(
+            key=self.key,
+            feedback_user=self.feedback_user,
+            title=self.title,
+            description=self.description,
+            status=status,
+            created_at=self.created_at,
+        )
 
 
 @dataclasses.dataclass(frozen=True)
