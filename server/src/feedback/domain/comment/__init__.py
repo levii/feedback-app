@@ -1,5 +1,5 @@
 import dataclasses
-from typing import List
+from typing import List, Iterable, Iterator
 
 from common.user.domain.key import UserKey
 from common.user.domain.user import UserName, User
@@ -44,9 +44,12 @@ class FeedbackComment:
 class FeedbackCommentCollection:
     _collection: List[FeedbackComment]
 
+    def __iter__(self) -> Iterator[FeedbackComment]:
+        return self._collection.__iter__()
+
     @classmethod
-    def build(cls, comments: List[FeedbackComment]) -> "FeedbackCommentCollection":
-        return cls(comments)
+    def build(cls, comments: Iterable[FeedbackComment]) -> "FeedbackCommentCollection":
+        return cls(list(comments))
 
     def append(self, comment: FeedbackComment) -> "FeedbackCommentCollection":
         self._collection.append(comment)
