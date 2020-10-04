@@ -1,6 +1,6 @@
 import pytest
 
-from common.user.domain.user import UserName, UserIconURL, User
+from common.user.domain.user import UserName, User, CompanyName
 from test_helpers.user import build_user
 
 
@@ -17,20 +17,16 @@ class TestUser:
         with pytest.raises(AssertionError):
             UserName("a" * UserName.MAX_LENGTH + "x")
 
-    def test_valid_user_icon(self):
-        icon = UserIconURL("http://localhost/user-image.png")
-        assert isinstance(icon, UserIconURL)
-        assert isinstance(
-            UserIconURL("https://example.com/user-image.png"), UserIconURL
-        )
+    def test_valid_company_name(self):
+        company_name = CompanyName("Test Company")
+        assert isinstance(company_name, CompanyName)
 
-    def test_invalid_starts_with_user_icon(self):
-        with pytest.raises(AssertionError):
-            UserIconURL("test://example.com")
+    def test_valid_empty_company_name(self):
+        assert isinstance(CompanyName(""), CompanyName)
 
-    def test_invalid_too_long_user_icon(self):
+    def test_invalid_too_long_company_name(self):
         with pytest.raises(AssertionError):
-            UserIconURL("http://example.com/" + "a" * UserIconURL.MAX_LENGTH)
+            CompanyName("Very " + "." * CompanyName.MAX_LENGTH + " long name")
 
     def test_valid_user(self):
         user = build_user(name="John One")
