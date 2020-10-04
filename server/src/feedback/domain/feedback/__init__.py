@@ -1,11 +1,24 @@
 import dataclasses
 import datetime
+import enum
 from typing import List
 
 from common.user.domain.key import UserKey
 from common.user.domain.user import User, UserName
 from feedback.domain.comment import FeedbackCommentCollection
 from feedback.domain.key import FeedbackKey
+
+
+class FeedbackStatus(enum.Enum):
+    New = "New"
+    Accepted = "Accepted"
+    Implementing = "Implementing"
+    Released = "Released"
+    WontFix = "WontFix"
+
+    @classmethod
+    def all_statuses(cls) -> List["FeedbackStatus"]:
+        return [s for s in cls]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -56,6 +69,7 @@ class Feedback:
     feedback_user: FeedbackUser
     title: FeedbackTitle
     description: FeedbackDescription
+    status: FeedbackStatus
     created_at: datetime.datetime
 
 
