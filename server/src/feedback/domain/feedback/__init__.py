@@ -133,6 +133,10 @@ class FeedbackCollection:
     def build(cls, feedbacks: Iterable[Feedback]) -> "FeedbackCollection":
         return cls(list(feedbacks))
 
+    def append(self, feedback: Feedback) -> "FeedbackCollection":
+        self._collection.append(feedback)
+        return self
+
     def filter_by_user_key(self, user_key: UserKey) -> "FeedbackCollection":
         return self.build(
             [
