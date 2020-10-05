@@ -1,5 +1,6 @@
 import flask
 import common.user.bind  # noqa
+import feedback.bind  # noqa
 from common.user.presentation import register_user_blueprints
 
 app = flask.Flask(__name__)
