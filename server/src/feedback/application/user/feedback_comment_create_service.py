@@ -1,6 +1,6 @@
 from injector import inject
 
-from common.user.domain.user import User
+from common.user.domain.user import CustomerUser
 from feedback.domain.comment import FeedbackCommentBody, FeedbackComment
 from feedback.domain.key import FeedbackKey
 from feedback.domain.repository import FeedbackRepository
@@ -13,7 +13,7 @@ class FeedbackCommentCreateService:
 
     def execute(
         self,
-        user: User,
+        user: CustomerUser,
         feedback_key: FeedbackKey,
         feedback_comment_body: FeedbackCommentBody,
     ) -> FeedbackComment:

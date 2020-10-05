@@ -1,6 +1,8 @@
 import flask.views
+from werkzeug.exceptions import Forbidden
 
 from common.user.domain.key import UserKey
+from common.user.domain.user import CustomerUser
 from common.user.domain.user_repository import UserRepository
 from feedback.application.user.feedback_comment_create_service import (
     FeedbackCommentCreateService,
@@ -24,6 +26,9 @@ class UserFeedbackListView(flask.views.MethodView):
 
         user_key = UserKey.build(user_id)
         current_user = user_repository.fetch_by_key(user_key)
+        if not isinstance(current_user, CustomerUser):
+            raise Forbidden()
+
         feedbacks = feedbacks_fetch_service.execute(user=current_user)
 
         return flask.render_template(
@@ -40,6 +45,9 @@ class UserFeedbackListView(flask.views.MethodView):
 
         user_key = UserKey.build(user_id)
         current_user = user_repository.fetch_by_key(user_key)
+        if not isinstance(current_user, CustomerUser):
+            raise Forbidden()
+
         feedback_create_service.execute(
             user=current_user,
             title=FeedbackTitle(f"作成した要望 - {utcnow_with_tz().isoformat()}"),
@@ -59,6 +67,9 @@ class UserFeedbackView(flask.views.MethodView):
         user_key = UserKey.build(user_id)
         feedback_key = FeedbackKey.build(feedback_id)
         current_user = user_repository.fetch_by_key(user_key)
+        if not isinstance(current_user, CustomerUser):
+            raise Forbidden()
+
         feedback = feedback_fetch_service.execute(
             user=current_user, feedback_key=feedback_key
         )
@@ -81,6 +92,9 @@ class UserFeedbackCommentView(flask.views.MethodView):
         user_key = UserKey.build(user_id)
         feedback_key = FeedbackKey.build(feedback_id)
         current_user = user_repository.fetch_by_key(user_key)
+        if not isinstance(current_user, CustomerUser):
+            raise Forbidden()
+
         feedback_comment_create_service.execute(
             user=current_user,
             feedback_key=feedback_key,
