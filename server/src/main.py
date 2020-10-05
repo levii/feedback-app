@@ -2,6 +2,7 @@ import flask
 import common.user.bind  # noqa
 import feedback.bind  # noqa
 from common.user.presentation import register_user_blueprints
+from feedback.presentation import register_feedback_blueprints
 
 app = flask.Flask(__name__)
 
@@ -14,6 +15,7 @@ def hello() -> str:
 blueprint = flask.Blueprint(name="blueprint", import_name=__name__)
 
 register_user_blueprints(blueprint)
+register_feedback_blueprints(blueprint)
 
 app.register_blueprint(blueprint)
 
