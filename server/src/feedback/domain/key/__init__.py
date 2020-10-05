@@ -34,3 +34,7 @@ class FeedbackCommentKey:
         return cls.build(
             feedback_id=feedback_key.feedback_id, comment_id=str(uuid.uuid4())
         )
+
+    @property
+    def feedback_key(self) -> FeedbackKey:
+        return FeedbackKey.build(self.feedback_id)

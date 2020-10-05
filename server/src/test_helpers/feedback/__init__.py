@@ -11,7 +11,7 @@ from feedback.domain.feedback import (
 )
 from feedback.domain.key import FeedbackKey
 from framework import utcnow_with_tz
-from test_helpers.user import build_user
+from test_helpers.user import build_customer_user
 
 
 def build_feedback(
@@ -25,7 +25,7 @@ def build_feedback(
     if key is None:
         key = FeedbackKey.build_new()
     if feedback_user is None:
-        feedback_user = FeedbackUser.build_from_user(user=build_user())
+        feedback_user = FeedbackUser.build_from_user(user=build_customer_user())
     if isinstance(feedback_user, User):
         feedback_user = FeedbackUser.build_from_user(user=feedback_user)
 

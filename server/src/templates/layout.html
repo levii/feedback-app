@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+
+    <style>
+        th, td {
+            border: black 1px solid;
+        }
+    </style>
 </head>
 <body>
 <h1>Feedback Sample App</h1>
-<a href="/">Top</a>
-<a href="/users">ユーザ切替</a>
+
+{% if current_user %}
+    <p>
+        <a href="/">Topに戻る</a>
+        <span>
+        {{ current_user.name.value }} としてログイン中 (ID: {{ current_user.key.user_id }}, type: {{ current_user.user_type.value }})
+        </span>
+    </p>
+{% else %}
+    <p>
+        <a href="/">Topに戻る</a>
+    </p>
+{% endif %}
 
 <hr/>
 
