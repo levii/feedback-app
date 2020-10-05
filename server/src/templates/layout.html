@@ -9,6 +9,12 @@
 <a href="/">Top</a>
 <a href="/users">ユーザ切替</a>
 
+{% if current_user %}
+    <p>
+    {{ current_user.name.value }} としてログイン中 (ID: {{ current_user.key.user_id }})
+    </p>
+{% endif %}
+
 <hr/>
 
 {% block content %}{% endblock %}
