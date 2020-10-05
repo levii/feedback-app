@@ -8,8 +8,12 @@ from feedback.application.support.feedback_comment_create_service import (
     FeedbackCommentCreateService,
 )
 from feedback.application.support.feedback_fetch_service import FeedbackFetchService
+from feedback.application.support.feedback_status_update_service import (
+    FeedbackStatusUpdateService,
+)
 from feedback.application.support.feedbacks_fetch_service import FeedbacksFetchService
 from feedback.domain.comment import FeedbackCommentBody
+from feedback.domain.feedback import FeedbackStatus
 from feedback.domain.key import FeedbackKey
 from framework import utcnow_with_tz
 from framework.container import container
@@ -58,6 +62,31 @@ class SupportFeedbackView(flask.views.MethodView):
             current_user=current_user,
             feedback=feedback.feedback,
             comments=feedback.comments,
+            statuses=FeedbackStatus,
+        )
+
+    def post(self, user_id: str, feedback_id: str) -> flask.Response:
+        user_repository = container.get(UserRepository)
+        feedback_status_update_service: FeedbackStatusUpdateService = container.get(
+            FeedbackStatusUpdateService
+        )
+
+        user_key = UserKey.build(user_id)
+        feedback_key = FeedbackKey.build(feedback_id)
+        current_user = user_repository.fetch_by_key(user_key)
+        if not isinstance(current_user, SupportUser):
+            raise Forbidden()
+
+        form = flask.request.form
+        status = FeedbackStatus[form["status"]]
+
+        feedback_status_update_service.execute(
+            user=current_user, feedback_key=feedback_key, status=status
+        )
+
+        return flask.redirect(
+            location=f"/support/users/{user_id}/feedbacks/{feedback_id}",
+            Response=flask.Response,
         )
 
 

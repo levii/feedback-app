@@ -12,6 +12,18 @@
     <h3>状態</h3>
     <div>{{ feedback.status.value }}</div>
 
+    <div style="padding: 10px; border: 1px solid gray; width: 500px;">
+        <h4>状態を変更する</h4>
+        <form method="POST" action="/support/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}">
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status.name }}" {% if status == feedback.status %}selected{% endif %}>{{ status.value }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="状態を変更する" />
+        </form>
+    </div>
+
     <hr/>
 
     <h2>コメント</h2>

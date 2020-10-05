@@ -118,6 +118,9 @@ class FeedbackWithComments:
     def status(self) -> FeedbackStatus:
         return self.feedback.status
 
+    def with_feedback(self, feedback: Feedback) -> "FeedbackWithComments":
+        return self.build(feedback=feedback, comments=self.comments)
+
 
 @dataclasses.dataclass(frozen=True)
 class FeedbackCollection:

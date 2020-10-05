@@ -41,7 +41,7 @@ def register_feedback_blueprints(blueprint: flask.Blueprint) -> None:
     blueprint.add_url_rule(
         "/support/users/<user_id>/feedbacks/<feedback_id>",
         view_func=SupportFeedbackView.as_view("paths/support/feedback"),
-        methods=["GET"],
+        methods=["GET", "POST"],
     )
     blueprint.add_url_rule(
         "/support/users/<user_id>/feedbacks/<feedback_id>/comments",
