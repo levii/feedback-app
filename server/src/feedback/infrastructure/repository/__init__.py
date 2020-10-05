@@ -15,6 +15,7 @@ from feedback.domain.feedback import (
     FeedbackDescription,
     FeedbackStatus,
     FeedbackWithComments,
+    FeedbackCollection,
 )
 from feedback.domain.key import FeedbackKey
 from feedback.domain.repository import FeedbackRepository
@@ -44,8 +45,8 @@ class InMemoryFeedbackRepository(FeedbackRepository):
 
         self._comments: Dict[FeedbackKey, List[FeedbackComment]] = defaultdict(list)
 
-    def fetch_list(self) -> List[Feedback]:
-        return list(self._feedbacks.values())
+    def fetch_list(self) -> FeedbackCollection:
+        return FeedbackCollection.build(self._feedbacks.values())
 
     def fetch_by_key(self, key: FeedbackKey) -> FeedbackWithComments:
         feedback = self._feedbacks.get(key)

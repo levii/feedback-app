@@ -1,12 +1,10 @@
-from typing import List
-
 from feedback.domain.comment import FeedbackComment
-from feedback.domain.feedback import Feedback, FeedbackWithComments
+from feedback.domain.feedback import Feedback, FeedbackWithComments, FeedbackCollection
 from feedback.domain.key import FeedbackKey
 
 
 class FeedbackRepository:
-    def fetch_list(self) -> List[Feedback]:
+    def fetch_list(self) -> FeedbackCollection:
         raise NotImplementedError()
 
     def fetch_by_key(self, key: FeedbackKey) -> FeedbackWithComments:
