@@ -27,7 +27,7 @@ class UserFeedbackListView(flask.views.MethodView):
         feedbacks = feedbacks_fetch_service.execute(user=current_user)
 
         return flask.render_template(
-            "feedback/user/feedbacks.html",
+            "feedback/customer/feedbacks.html",
             current_user=current_user,
             feedbacks=feedbacks,
         )
@@ -64,7 +64,7 @@ class UserFeedbackView(flask.views.MethodView):
         )
 
         return flask.render_template(
-            "feedback/user/feedback.html",
+            "feedback/customer/feedback.html",
             current_user=current_user,
             feedback=feedback.feedback,
             comments=feedback.comments,
@@ -90,6 +90,6 @@ class UserFeedbackCommentView(flask.views.MethodView):
         )
 
         return flask.redirect(
-            location=f"/user/users/{user_id}/feedbacks/{feedback_id}",
+            location=f"/customer/users/{user_id}/feedbacks/{feedback_id}",
             Response=flask.Response,
         )

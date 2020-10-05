@@ -15,20 +15,20 @@ from feedback.presentation.user import (
 def register_feedback_blueprints(blueprint: flask.Blueprint) -> None:
     # for customer user
     blueprint.add_url_rule(
-        "/user/users/<user_id>/feedbacks",
-        view_func=UserFeedbackListView.as_view("paths/user/feedbacks"),
+        "/customer/users/<user_id>/feedbacks",
+        view_func=UserFeedbackListView.as_view("paths/customer/feedbacks"),
         methods=["GET", "POST"],
     )
 
     blueprint.add_url_rule(
-        "/user/users/<user_id>/feedbacks/<feedback_id>",
-        view_func=UserFeedbackView.as_view("paths/user/feedback"),
+        "/customer/users/<user_id>/feedbacks/<feedback_id>",
+        view_func=UserFeedbackView.as_view("paths/customer/feedback"),
         methods=["GET"],
     )
 
     blueprint.add_url_rule(
-        "/user/users/<user_id>/feedbacks/<feedback_id>/comments",
-        view_func=UserFeedbackCommentView.as_view("paths/user/feedback/comments"),
+        "/customer/users/<user_id>/feedbacks/<feedback_id>/comments",
+        view_func=UserFeedbackCommentView.as_view("paths/customer/feedback/comments"),
         methods=["POST"],
     )
 
