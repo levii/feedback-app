@@ -60,5 +60,8 @@ class UserFeedbackView(flask.views.MethodView):
         )
 
         return flask.render_template(
-            "feedback/user/feedback.html", current_user=current_user, feedback=feedback,
+            "feedback/user/feedback.html",
+            current_user=current_user,
+            feedback=feedback.feedback,
+            comments=feedback.comments,
         )

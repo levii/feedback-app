@@ -39,6 +39,10 @@ class FeedbackComment:
             body=body,
         )
 
+    @property
+    def feedback_key(self) -> FeedbackKey:
+        return self.key.feedback_key
+
 
 @dataclasses.dataclass(frozen=True)
 class FeedbackCommentCollection:
