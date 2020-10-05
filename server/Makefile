@@ -18,3 +18,9 @@ check: mypy black flake8
 
 test:
 	PYTHONPATH=src pytest -vv tests
+
+server:
+	DEBUG=true python src/main.py
+
+demo-server:
+	DEBUG=false python src/main.py
