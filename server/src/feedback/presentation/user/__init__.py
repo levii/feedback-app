@@ -3,8 +3,10 @@ import flask.views
 from common.user.domain.key import UserKey
 from common.user.domain.user_repository import UserRepository
 from feedback.application.user.feedback_create_service import FeedbackCreateService
+from feedback.application.user.feedback_fetch_service import FeedbackFetchService
 from feedback.application.user.feedbacks_fetch_service import FeedbacksFetchService
 from feedback.domain.feedback import FeedbackTitle, FeedbackDescription
+from feedback.domain.key import FeedbackKey
 from framework import utcnow_with_tz
 from framework.container import container
 
@@ -41,3 +43,22 @@ class UserFeedbackListView(flask.views.MethodView):
         )
 
         return flask.redirect(location=flask.request.path, Response=flask.Response)
+
+
+class UserFeedbackView(flask.views.MethodView):
+    def get(self, user_id: str, feedback_id: str) -> str:
+        user_repository = container.get(UserRepository)
+        feedback_fetch_service: FeedbackFetchService = container.get(
+            FeedbackFetchService
+        )
+
+        user_key = UserKey.build(user_id)
+        feedback_key = FeedbackKey.build(feedback_id)
+        current_user = user_repository.fetch_by_key(user_key)
+        feedback = feedback_fetch_service.execute(
+            user=current_user, feedback_key=feedback_key
+        )
+
+        return flask.render_template(
+            "feedback/user/feedback.html", current_user=current_user, feedback=feedback,
+        )
