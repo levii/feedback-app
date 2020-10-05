@@ -145,3 +145,6 @@ class FeedbackCollection:
                 if feedback.feedback_user.user_key == user_key
             ]
         )
+
+    def filter_by_status(self, status: FeedbackStatus) -> "FeedbackCollection":
+        return self.build([feedback for feedback in self if feedback.status == status])
