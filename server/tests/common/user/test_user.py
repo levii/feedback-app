@@ -1,7 +1,7 @@
 import pytest
 
 from common.user.domain.user import UserName, User, CompanyName
-from test_helpers.user import build_user
+from test_helpers.user import build_customer_user
 
 
 class TestUser:
@@ -29,6 +29,6 @@ class TestUser:
             CompanyName("Very " + "." * CompanyName.MAX_LENGTH + " long name")
 
     def test_valid_user(self):
-        user = build_user(name="John One")
+        user = build_customer_user(name="John One")
         assert isinstance(user, User)
         assert user.name == UserName("John One")

@@ -1,4 +1,5 @@
 import dataclasses
+import enum
 
 from common.user.domain.key import UserKey
 
@@ -35,8 +36,35 @@ class CompanyName:
         ), f"CompanyNameには長さ{self.MAX_LENGTH}以下の文字列を指定してください"
 
 
+class UserType(enum.Enum):
+    Customer = "Customer"
+    Support = "Support"
+
+
 @dataclasses.dataclass(frozen=True)
 class User:
     key: UserKey
     name: UserName
+    user_type: UserType
+
+
+@dataclasses.dataclass(frozen=True)
+class CustomerUser(User):
     company_name: CompanyName
+
+    TYPE = UserType.Customer
+
+    @classmethod
+    def build(
+        cls, key: UserKey, name: UserName, company_name: CompanyName
+    ) -> "CustomerUser":
+        return cls(key=key, name=name, company_name=company_name, user_type=cls.TYPE)
+
+
+@dataclasses.dataclass(frozen=True)
+class SupportUser(User):
+    TYPE = UserType.Support
+
+    @classmethod
+    def build(cls, key: UserKey, name: UserName) -> "SupportUser":
+        return cls(key=key, name=name, user_type=cls.TYPE)

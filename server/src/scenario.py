@@ -1,7 +1,12 @@
 from typing import List
 
 from common.user.domain.key import UserKey
-from common.user.domain.user import User, UserName, CompanyName
+from common.user.domain.user import (
+    UserName,
+    CompanyName,
+    CustomerUser,
+    SupportUser,
+)
 from feedback.domain.comment import (
     FeedbackComment,
     FeedbackCommentBody,
@@ -20,7 +25,7 @@ from feedback.domain.feedback import (
 feedbacks: List[Feedback] = []
 
 # 顧客「山田 太郎」としてログイン
-login_user = User(
+login_user = CustomerUser.build(
     key=UserKey.build("c10001"),
     name=UserName("山田 太郎"),
     company_name=CompanyName("株式会社ラビィ"),
@@ -35,11 +40,7 @@ requested_feedback = Feedback.build_new(
 feedbacks.append(requested_feedback)
 
 # カスタマーサポート「佐藤 次郎」としてログイン
-support_user = User(
-    key=UserKey.build("s10099"),
-    name=UserName("佐藤 次郎"),
-    company_name=CompanyName("株式会社ロビィ"),
-)
+support_user = SupportUser.build(key=UserKey.build("s10099"), name=UserName("佐藤 次郎"),)
 # カスタマーサポートの担当者が、新着の要望を確認する
 new_feedbacks = [f for f in feedbacks if f.status == FeedbackStatus.New]
 
