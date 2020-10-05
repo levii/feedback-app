@@ -49,8 +49,7 @@ new_feedback = next(iter(new_feedbacks))
 accepted_feedback = new_feedback.with_status(status=FeedbackStatus.Accepted)
 # 要望と、その要望に対するコメントはひと塊として取り扱いたい
 feedback_with_comments = FeedbackWithComments.build(
-    feedback=accepted_feedback,
-    comments=FeedbackCommentCollection.build_new(),
+    feedback=accepted_feedback, comments=FeedbackCommentCollection.build_new(),
 )
 
 # カスタマーサポートから顧客に対して要望内容について問い合わせる（コメントを送る）
@@ -78,9 +77,7 @@ implementing_feedback = feedback_with_comments.with_feedback(
 
 # サポートが要望を「リリース済み」ステータスに変更する
 released_feedback = feedback_with_comments.with_feedback(
-    feedback=feedback_with_comments.feedback.with_status(
-        status=FeedbackStatus.Released
-    )
+    feedback=feedback_with_comments.feedback.with_status(status=FeedbackStatus.Released)
 )
 
 # サポートから顧客にリリースしたことをコメントで伝える
