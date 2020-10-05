@@ -47,6 +47,11 @@ new_feedbacks = feedbacks.filter_by_status(status=FeedbackStatus.New)
 new_feedback = next(iter(new_feedbacks))
 # 確認した要望のステータスを [確認済み] に変更する
 accepted_feedback = new_feedback.with_status(status=FeedbackStatus.Accepted)
+# 要望と、その要望に対するコメントはひと塊として取り扱いたい
+feedback_with_comments = FeedbackWithComments.build(
+    feedback=accepted_feedback,
+    comments=FeedbackCommentCollection.build_new(),
+)
 
 # カスタマーサポートから顧客に対して要望内容について問い合わせる（コメントを送る）
 support_comment = FeedbackComment.build_new(
@@ -54,12 +59,7 @@ support_comment = FeedbackComment.build_new(
     comment_user=support_user,
     body=FeedbackCommentBody("...."),
 )
-
-# 要望と、その要望に対するコメントはひと塊として取り扱いたい
-feedback_with_comments = FeedbackWithComments.build(
-    feedback=accepted_feedback,
-    comments=FeedbackCommentCollection.build([support_comment]),
-)
+feedback_with_comments.comments.append(support_comment)
 
 # 顧客が、サポートからのコメントに対して返信コメントを返す
 reply_comment = FeedbackComment.build_new(
@@ -70,19 +70,23 @@ reply_comment = FeedbackComment.build_new(
 feedback_with_comments.comments.append(reply_comment)
 
 # サポートがコメントを確認して、要望を「対応中」ステータスに変更する
-implementing_feedback = feedback_with_comments.feedback.with_status(
-    status=FeedbackStatus.Implementing
+implementing_feedback = feedback_with_comments.with_feedback(
+    feedback=feedback_with_comments.feedback.with_status(
+        status=FeedbackStatus.Implementing
+    )
 )
 
-# サポートが要望を「リリース済み」ステータスに変更して、顧客にコメントで連絡する
-released_feedback = implementing_feedback.with_status(status=FeedbackStatus.Released)
-feedback_with_comments = FeedbackWithComments.build(
-    feedback=released_feedback,
-    comments=FeedbackCommentCollection.build(feedback_with_comments.comments),
+# サポートが要望を「リリース済み」ステータスに変更する
+released_feedback = feedback_with_comments.with_feedback(
+    feedback=feedback_with_comments.feedback.with_status(
+        status=FeedbackStatus.Released
+    )
 )
+
+# サポートから顧客にリリースしたことをコメントで伝える
 release_comment = FeedbackComment.build_new(
     feedback_key=accepted_feedback.key,
     comment_user=support_user,
     body=FeedbackCommentBody("...."),
 )
-feedback_with_comments.comments.append(release_comment)
+released_feedback.comments.append(release_comment)
