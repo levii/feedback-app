@@ -11,14 +11,19 @@ class InMemoryUserRepository(UserRepository):
     def __init__(self) -> None:
         sample_users = [
             User(
-                key=UserKey("customer1"),
-                name=UserName("顧客ユーザ1"),
+                key=UserKey("c10001"),
+                name=UserName("山田 太郎"),
                 company_name=CompanyName("株式会社ラビィ"),
             ),
             User(
-                key=UserKey("customer2"),
-                name=UserName("顧客ユーザ2"),
+                key=UserKey("c10002"),
+                name=UserName("山田 次郎"),
                 company_name=CompanyName("株式会社ラビィ"),
+            ),
+            User(
+                key=UserKey("s90099"),
+                name=UserName("佐藤 健太"),
+                company_name=CompanyName("株式会社ロビィ"),
             ),
         ]
 
