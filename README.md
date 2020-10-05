@@ -37,3 +37,14 @@ $ vi server/src/requirements.dev.in
 $ make pip-compile
 $ pip install -r server/src/requirements.dev.txt
 ```
+
+### デモ用の起動
+
+一連の操作をデモンストレーションする場合には、自動リロードが行われないように、以下のようにサーバを起動してください。
+
+```
+$ cd server
+$ make demo-server
+```
+
+(ソースコード変更を検知して再読み込みが行われると、 InMemoryRepository の内容がクリアされます。)

@@ -1,3 +1,5 @@
+import os
+
 import flask
 import common.user.bind  # noqa
 import feedback.bind  # noqa
@@ -21,4 +23,6 @@ app.register_blueprint(blueprint)
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(
+        host="127.0.0.1", port=8080, debug=os.environ.get("DEBUG", "true") == "true"
+    )
