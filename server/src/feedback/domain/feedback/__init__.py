@@ -132,3 +132,19 @@ class FeedbackCollection:
     @classmethod
     def build(cls, feedbacks: Iterable[Feedback]) -> "FeedbackCollection":
         return cls(list(feedbacks))
+
+    def append(self, feedback: Feedback) -> "FeedbackCollection":
+        self._collection.append(feedback)
+        return self
+
+    def filter_by_user_key(self, user_key: UserKey) -> "FeedbackCollection":
+        return self.build(
+            [
+                feedback
+                for feedback in self
+                if feedback.feedback_user.user_key == user_key
+            ]
+        )
+
+    def filter_by_status(self, status: FeedbackStatus) -> "FeedbackCollection":
+        return self.build([feedback for feedback in self if feedback.status == status])

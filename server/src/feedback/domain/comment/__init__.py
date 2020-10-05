@@ -55,6 +55,10 @@ class FeedbackCommentCollection:
     def build(cls, comments: Iterable[FeedbackComment]) -> "FeedbackCommentCollection":
         return cls(list(comments))
 
+    @classmethod
+    def build_new(cls) -> "FeedbackCommentCollection":
+        return cls.build([])
+
     def append(self, comment: FeedbackComment) -> "FeedbackCommentCollection":
         self._collection.append(comment)
         return self
