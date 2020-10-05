@@ -1,22 +1,35 @@
 import dataclasses
 import datetime
-from typing import List
+import enum
+from typing import List, Optional
 
 from common.user.domain.key import UserKey
-from common.user.domain.user import User, UserName, UserIconURL
+from common.user.domain.user import User, UserName
 from feedback.domain.comment import FeedbackCommentCollection
 from feedback.domain.key import FeedbackKey
+from framework import utcnow_with_tz
+
+
+class FeedbackStatus(enum.Enum):
+    New = "New"
+    Accepted = "Accepted"
+    Implementing = "Implementing"
+    Released = "Released"
+    WontFix = "WontFix"
+
+    @classmethod
+    def all_statuses(cls) -> List["FeedbackStatus"]:
+        return [s for s in cls]
 
 
 @dataclasses.dataclass(frozen=True)
 class FeedbackUser:
     user_key: UserKey
     name: UserName
-    icon_url: UserIconURL
 
     @classmethod
     def build_from_user(cls, user: User) -> "FeedbackUser":
-        return cls(user_key=user.key, name=user.name, icon_url=user.icon_url)
+        return cls(user_key=user.key, name=user.name)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -57,13 +70,53 @@ class Feedback:
     feedback_user: FeedbackUser
     title: FeedbackTitle
     description: FeedbackDescription
+    status: FeedbackStatus
     created_at: datetime.datetime
+
+    @classmethod
+    def build_new(
+        cls, user: User, title: FeedbackTitle, description: FeedbackDescription
+    ) -> "Feedback":
+        return cls(
+            key=FeedbackKey.build_new(),
+            feedback_user=FeedbackUser.build_from_user(user),
+            title=title,
+            description=description,
+            status=FeedbackStatus.New,
+            created_at=utcnow_with_tz(),
+        )
+
+    def with_status(self, status: FeedbackStatus) -> "Feedback":
+        return Feedback(
+            key=self.key,
+            feedback_user=self.feedback_user,
+            title=self.title,
+            description=self.description,
+            status=status,
+            created_at=self.created_at,
+        )
 
 
 @dataclasses.dataclass(frozen=True)
 class FeedbackWithComments:
     feedback: Feedback
     comments: FeedbackCommentCollection
+
+    @classmethod
+    def build(
+        cls, feedback: Feedback, comments: Optional[FeedbackCommentCollection] = None
+    ) -> "FeedbackWithComments":
+        return cls(
+            feedback=feedback, comments=comments or FeedbackCommentCollection([])
+        )
+
+    @property
+    def key(self) -> FeedbackKey:
+        return self.feedback.key
+
+    @property
+    def status(self) -> FeedbackStatus:
+        return self.feedback.status
 
 
 @dataclasses.dataclass(frozen=True)

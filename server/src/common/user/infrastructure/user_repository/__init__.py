@@ -3,7 +3,7 @@ from typing import List, Dict
 from werkzeug.exceptions import NotFound
 
 from common.user.domain.key import UserKey
-from common.user.domain.user import User, UserName, UserIconURL
+from common.user.domain.user import User, UserName, CompanyName
 from common.user.domain.user_repository import UserRepository
 
 
@@ -13,12 +13,12 @@ class InMemoryUserRepository(UserRepository):
             User(
                 key=UserKey("customer1"),
                 name=UserName("顧客ユーザ1"),
-                icon_url=UserIconURL("https://example.com/customer1.png"),
+                company_name=CompanyName("株式会社ラビィ"),
             ),
             User(
                 key=UserKey("customer2"),
                 name=UserName("顧客ユーザ2"),
-                icon_url=UserIconURL("https://example.com/customer2.png"),
+                company_name=CompanyName("株式会社ラビィ"),
             ),
         ]
 

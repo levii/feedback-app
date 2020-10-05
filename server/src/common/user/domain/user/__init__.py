@@ -1,5 +1,4 @@
 import dataclasses
-import re
 
 from common.user.domain.key import UserKey
 
@@ -21,23 +20,23 @@ class UserName:
 
 
 @dataclasses.dataclass(frozen=True)
-class UserIconURL:
+class CompanyName:
     value: str
 
-    URL_PATTERN = r"https?://"
-    MAX_LENGTH = 200
+    MIN_LENGTH = 0
+    MAX_LENGTH = 100
 
     def __post_init__(self) -> None:
-        assert re.match(
-            self.URL_PATTERN, self.value
-        ), f"UserNameの値は{self.URL_PATTERN}に合致する文字列を指定してください"
+        assert (
+            len(self.value) >= self.MIN_LENGTH
+        ), f"CompanyNameには長さ{self.MIN_LENGTH}以上の文字列を指定してください"
         assert (
             len(self.value) <= self.MAX_LENGTH
-        ), f"UserNameには長さ{self.MAX_LENGTH}以下の文字列を指定してください"
+        ), f"CompanyNameには長さ{self.MAX_LENGTH}以下の文字列を指定してください"
 
 
 @dataclasses.dataclass(frozen=True)
 class User:
     key: UserKey
     name: UserName
-    icon_url: UserIconURL
+    company_name: CompanyName
