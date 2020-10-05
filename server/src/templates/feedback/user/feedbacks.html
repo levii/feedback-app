@@ -2,4 +2,19 @@
 
 {% block content %}
     <h2>{{ current_user.name.value }} さんの要望一覧</h2>
+
+    <table>
+    <tr>
+        <th>要望ID</th>
+        <th>要望タイトル</th>
+        <th>要望登録日</th>
+    </tr>
+    {% for feedback in feedbacks %}
+        <tr>
+        <td>{{ feedback.key.feedback_id }}</td>
+        <td>{{ feedback.title.value }}</td>
+        <td>{{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endblock %}
