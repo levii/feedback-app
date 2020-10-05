@@ -16,6 +16,19 @@
 
     <h2>コメント</h2>
 
+    {% for comment in comments %}
+        <div style="border-top: 1px solid gray; width: 500px;">
+            <b>{{ comment.feedback_comment_user.name.value }}</b><br/>
+            {{ comment.body.value }}
+        </div>
+    {% endfor %}
+
+    <div style="border-top: 1px solid gray; width: 500px;">
+        <form method="POST" action="/user/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}/comments">
+            <input type="submit" value="投稿する" />
+        </form>
+    </div>
+
     <hr/>
     <a href="/user/users/{{ current_user.key.user_id }}/feedbacks">要望一覧に戻る</a>
 {% endblock %}

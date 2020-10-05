@@ -42,9 +42,7 @@ class InMemoryFeedbackRepository(FeedbackRepository):
             feedback.key: feedback for feedback in sample_feedbacks
         }
 
-        self._comments: Dict[FeedbackKey, List[FeedbackComment]] = defaultdict(
-            default_factory=list
-        )
+        self._comments: Dict[FeedbackKey, List[FeedbackComment]] = defaultdict(list)
 
     def fetch_list(self) -> List[Feedback]:
         return list(self._feedbacks.values())

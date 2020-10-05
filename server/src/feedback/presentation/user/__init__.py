@@ -2,9 +2,13 @@ import flask.views
 
 from common.user.domain.key import UserKey
 from common.user.domain.user_repository import UserRepository
+from feedback.application.user.feedback_comment_create_service import (
+    FeedbackCommentCreateService,
+)
 from feedback.application.user.feedback_create_service import FeedbackCreateService
 from feedback.application.user.feedback_fetch_service import FeedbackFetchService
 from feedback.application.user.feedbacks_fetch_service import FeedbacksFetchService
+from feedback.domain.comment import FeedbackCommentBody
 from feedback.domain.feedback import FeedbackTitle, FeedbackDescription
 from feedback.domain.key import FeedbackKey
 from framework import utcnow_with_tz
@@ -64,4 +68,28 @@ class UserFeedbackView(flask.views.MethodView):
             current_user=current_user,
             feedback=feedback.feedback,
             comments=feedback.comments,
+        )
+
+
+class UserFeedbackCommentView(flask.views.MethodView):
+    def post(self, user_id: str, feedback_id: str) -> flask.Response:
+        user_repository = container.get(UserRepository)
+        feedback_comment_create_service: FeedbackCommentCreateService = container.get(
+            FeedbackCommentCreateService
+        )
+
+        user_key = UserKey.build(user_id)
+        feedback_key = FeedbackKey.build(feedback_id)
+        current_user = user_repository.fetch_by_key(user_key)
+        feedback_comment_create_service.execute(
+            user=current_user,
+            feedback_key=feedback_key,
+            feedback_comment_body=FeedbackCommentBody(
+                f"コメントです - {utcnow_with_tz().isoformat()}"
+            ),
+        )
+
+        return flask.redirect(
+            location=f"/user/users/{user_id}/feedbacks/{feedback_id}",
+            Response=flask.Response,
         )
