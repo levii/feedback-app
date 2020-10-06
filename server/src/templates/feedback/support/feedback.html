@@ -3,6 +3,9 @@
 {% block content %}
     <h2>要望: {{ feedback.title.value }}</h2>
 
+    <h3>登録者</h3>
+    <div>{{ feedback.feedback_user.name.value }}</div>
+
     <h3>説明</h3>
     <pre style="border: 1px solid black; width: 500px;">{{ feedback.description.value }}</pre>
 

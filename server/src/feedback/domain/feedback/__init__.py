@@ -5,7 +5,7 @@ from typing import List, Optional, Iterator, Iterable
 
 from common.user.domain.key import UserKey
 from common.user.domain.user import User, UserName
-from feedback.domain.comment import FeedbackCommentCollection
+from feedback.domain.comment import FeedbackCommentCollection, FeedbackComment
 from feedback.domain.key import FeedbackKey
 from framework import utcnow_with_tz
 
@@ -97,10 +97,17 @@ class Feedback:
         )
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=False)
 class FeedbackWithComments:
     feedback: Feedback
     comments: FeedbackCommentCollection
+
+    def __post_init__(self) -> None:
+        invalid_comments = [
+            comment for comment in self.comments if self.key != comment.feedback_key
+        ]
+        if len(invalid_comments) > 0:
+            raise RuntimeError("異なるFeedbackKeyに対するコメントを追加することはできません")
 
     @classmethod
     def build(
@@ -118,8 +125,20 @@ class FeedbackWithComments:
     def status(self) -> FeedbackStatus:
         return self.feedback.status
 
-    def with_feedback(self, feedback: Feedback) -> "FeedbackWithComments":
-        return self.build(feedback=feedback, comments=self.comments)
+    def replace_feedback(self, feedback: Feedback) -> "FeedbackWithComments":
+        if self.key != feedback.key:
+            raise RuntimeError("異なるFeedbackKeyのオブジェクトに更新することはできません")
+        self.feedback = feedback
+        return self
+
+    def change_status(self, status: FeedbackStatus) -> "FeedbackWithComments":
+        self.replace_feedback(feedback=self.feedback.with_status(status=status))
+        return self
+
+    def add_comment(self, comment: FeedbackComment) -> None:
+        if self.key != comment.feedback_key:
+            raise RuntimeError("異なるFeedbackKeyに対するコメントを追加することはできません")
+        self.comments.append(comment=comment)
 
 
 @dataclasses.dataclass(frozen=True)
