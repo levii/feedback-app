@@ -18,4 +18,4 @@ class FeedbackStatusUpdateService:
         feedback = self._feedback_repository.fetch_by_key(key=feedback_key)
         modified_status = feedback.feedback.with_status(status=status)
         self._feedback_repository.save(modified_status)
-        return feedback.with_feedback(feedback=modified_status)
+        return feedback.replace_feedback(feedback=modified_status)

@@ -69,16 +69,10 @@ reply_comment = FeedbackComment.build_new(
 feedback_with_comments.add_comment(reply_comment)
 
 # サポートがコメントを確認して、要望を「対応中」ステータスに変更する
-implementing_feedback = feedback_with_comments.with_feedback(
-    feedback=feedback_with_comments.feedback.with_status(
-        status=FeedbackStatus.Implementing
-    )
-)
+feedback_with_comments.change_status(status=FeedbackStatus.Implementing)
 
 # サポートが要望を「リリース済み」ステータスに変更する
-released_feedback = feedback_with_comments.with_feedback(
-    feedback=feedback_with_comments.feedback.with_status(status=FeedbackStatus.Released)
-)
+feedback_with_comments.change_status(status=FeedbackStatus.Released)
 
 # サポートから顧客にリリースしたことをコメントで伝える
 release_comment = FeedbackComment.build_new(
@@ -86,4 +80,4 @@ release_comment = FeedbackComment.build_new(
     comment_user=support_user,
     body=FeedbackCommentBody("...."),
 )
-released_feedback.add_comment(release_comment)
+feedback_with_comments.add_comment(release_comment)

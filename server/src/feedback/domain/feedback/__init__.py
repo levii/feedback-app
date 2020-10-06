@@ -97,7 +97,7 @@ class Feedback:
         )
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=False)
 class FeedbackWithComments:
     feedback: Feedback
     comments: FeedbackCommentCollection
@@ -125,8 +125,15 @@ class FeedbackWithComments:
     def status(self) -> FeedbackStatus:
         return self.feedback.status
 
-    def with_feedback(self, feedback: Feedback) -> "FeedbackWithComments":
-        return self.build(feedback=feedback, comments=self.comments)
+    def replace_feedback(self, feedback: Feedback) -> "FeedbackWithComments":
+        if self.key != feedback.key:
+            raise RuntimeError("異なるFeedbackKeyのオブジェクトに更新することはできません")
+        self.feedback = feedback
+        return self
+
+    def change_status(self, status: FeedbackStatus) -> "FeedbackWithComments":
+        self.replace_feedback(feedback=self.feedback.with_status(status=status))
+        return self
 
     def add_comment(self, comment: FeedbackComment) -> None:
         if self.key != comment.feedback_key:
