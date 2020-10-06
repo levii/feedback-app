@@ -1,34 +1,79 @@
 {% extends "layout.html" %}
 
+{% block breadcrumb %}
+    <span class="font-semibold text-white tracking-tight">
+        > <a href="/customer/users/{{ current_user.key.user_id }}/feedbacks">{{ current_user.name.value }} さんの要望一覧</a> > {{ feedback.title.value }}
+    </span>
+{% endblock %}
+
 {% block content %}
-    <h2>要望: {{ feedback.title.value }}</h2>
+    <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-8">
+            <div class="flex items-center mt-4">
+                <div class="w-24 text-gray-600 text-sm">
+                    タイトル
+                </div>
+                <div class="font-bold text-2xl">
+                    {{ feedback.title.value }}
+                </div>
+            </div>
 
-    <h3>説明</h3>
-    <pre style="border: 1px solid black; width: 500px;">{{ feedback.description.value }}</pre>
+            <div class="flex mt-4">
+                <div class="w-24 text-gray-600 text-sm">
+                    説明
+                </div>
+                <div class="flex-grow border rounded p-4">
+                    {{ feedback.description.value }}
+                </div>
+            </div>
 
-    <h3>登録日</h3>
-    <div>{{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}</div>
+            <div class="flex items-center mt-4">
+                <div class="w-24 text-gray-600 text-sm">
+                    登録日
+                </div>
+                <div class="">
+                    {{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}
+                </div>
+            </div>
 
-    <h3>状態</h3>
-    <div>{{ feedback.status.value }}</div>
-
-    <hr/>
-
-    <h2>コメント</h2>
-
-    {% for comment in comments %}
-        <div style="border-top: 1px solid gray; width: 500px;">
-            <b>{{ comment.feedback_comment_user.name.value }}</b><br/>
-            {{ comment.body.value }}
+            <div class="flex items-center mt-4">
+                <div class="w-24 text-gray-600 text-sm">
+                    状態
+                </div>
+                <div class="">
+                    {{ feedback.status.value }}
+                </div>
+            </div>
         </div>
-    {% endfor %}
 
-    <div style="border-top: 1px solid gray; width: 500px;">
-        <form method="POST" action="/customer/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}/comments">
-            <input type="submit" value="投稿する" />
-        </form>
+        <div class="col-span-4">
+            <div class="flex mt-4 mb-4 items-center">
+                <div class="text-xl font-bold mr-4">
+                    コメント
+                </div>
+
+                <form method="POST" action="/customer/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}/comments">
+                    <input
+                            class="bg-blue-500 hover:bg-blue-700 text-white inline-block font-bold py-3 px-4 rounded"
+                            type="submit" value="＋新しいコメントを投稿" />
+                </form>
+            </div>
+
+            <ul>
+            {% for comment in comments %}
+                <li
+                        class="border rounded border-grey-700 py-2 px-4 mt-2"
+                >
+                    <b>{{ comment.feedback_comment_user.name.value }}</b><br/>
+                    {{ comment.body.value }}
+                </li>
+            {% else %}
+                <li>
+                    コメントがありません
+                </li>
+            {% endfor %}
+            </ul>
+
+        </div>
     </div>
-
-    <hr/>
-    <a href="/customer/users/{{ current_user.key.user_id }}/feedbacks">要望一覧に戻る</a>
 {% endblock %}

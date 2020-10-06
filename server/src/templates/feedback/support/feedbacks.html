@@ -1,23 +1,30 @@
 {% extends "layout.html" %}
 
-{% block content %}
-    <h2>すべての要望一覧</h2>
+{% block breadcrumb %}
+    <span class="font-semibold text-white tracking-tight">
+    > 要望一覧
+    </span>
+{% endblock %}
 
-    <table>
-    <tr>
-        <th>要望ID</th>
-        <th>要望タイトル</th>
-        <th>登録者</th>
-        <th>要望登録日</th>
-    </tr>
-    {% for feedback in feedbacks %}
-        <tr>
-        <td>{{ feedback.key.feedback_id }}</td>
-        <td>{{ feedback.title.value }}</td>
-        <td>{{ feedback.feedback_user.name.value }}</td>
-        <td>{{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
-        <td><a href="/support/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}">詳細</a></td>
-        </tr>
-    {% endfor %}
-    </table>
+{% block content %}
+    <ul>
+        {% for feedback in feedbacks %}
+            <li
+                    class="border rounded border-grey-700 py-2 px-4 m-4"
+            >
+                <div class="flex">
+                    <a href="/support/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}"
+                       class="flex-grow text-xl font-bold text-blue-700 hover:text-blue-800 hover:underline"
+                    >
+                        {{ feedback.title.value }}
+                    </a>
+                    <div class="rounded bg-gray-500 text-white text-sm font-bold py-1 px-2">{{ feedback.status.value }}</div>
+                </div>
+                <div class="flex">
+                    <div class="flex-grow text-gray-700">{{ feedback.key.feedback_id }}</div>
+                    <div>{{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}</div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
