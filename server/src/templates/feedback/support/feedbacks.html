@@ -7,12 +7,14 @@
     <tr>
         <th>要望ID</th>
         <th>要望タイトル</th>
+        <th>登録者</th>
         <th>要望登録日</th>
     </tr>
     {% for feedback in feedbacks %}
         <tr>
         <td>{{ feedback.key.feedback_id }}</td>
         <td>{{ feedback.title.value }}</td>
+        <td>{{ feedback.feedback_user.name.value }}</td>
         <td>{{ feedback.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
         <td><a href="/support/users/{{ current_user.key.user_id }}/feedbacks/{{ feedback.key.feedback_id }}">詳細</a></td>
         </tr>
