@@ -58,7 +58,7 @@ support_comment = FeedbackComment.build_new(
     comment_user=support_user,
     body=FeedbackCommentBody("...."),
 )
-feedback_with_comments.comments.append(support_comment)
+feedback_with_comments.add_comment(support_comment)
 
 # 顧客が、サポートからのコメントに対して返信コメントを返す
 reply_comment = FeedbackComment.build_new(
@@ -66,7 +66,7 @@ reply_comment = FeedbackComment.build_new(
     comment_user=login_user,
     body=FeedbackCommentBody("...."),
 )
-feedback_with_comments.comments.append(reply_comment)
+feedback_with_comments.add_comment(reply_comment)
 
 # サポートがコメントを確認して、要望を「対応中」ステータスに変更する
 implementing_feedback = feedback_with_comments.with_feedback(
@@ -86,4 +86,4 @@ release_comment = FeedbackComment.build_new(
     comment_user=support_user,
     body=FeedbackCommentBody("...."),
 )
-released_feedback.comments.append(release_comment)
+released_feedback.add_comment(release_comment)
